@@ -68,10 +68,6 @@
       <td>Фреймворк, предоставляющий набор компнентов UI в Material Design</td>
     </tr>
     <tr>
-          <td><a href="https://github.com/monterail/vuelidate">Vuelidate</a></td>
-          <td>Библиотека для валидации форм</td>
-        </tr>
-    <tr>
       <td><a href="https://ru.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">axios</a></td>
       <td>Доступ к API, основанный на промисах HTTP-клиента</td>
     </tr>

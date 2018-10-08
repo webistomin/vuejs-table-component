@@ -13,23 +13,36 @@
                   <v-text-field prepend-icon="person"
                                 name="login"
                                 label="First name"
-                                type="text">
+                                type="text"
+                                v-model="firstName"
+                                :rules="nameRules"
+                                required
+                                :counter="30">
                   </v-text-field>
                   <v-text-field prepend-icon="person"
                                 name="login"
                                 label="Last name"
-                                type="text">
+                                type="text"
+                                v-model="lastName"
+                                :rules="nameRules"
+                                required
+                                :counter="30">
                   </v-text-field>
                   <v-text-field prepend-icon="person"
                                 name="login"
                                 label="Username"
-                                type="text">
+                                type="text"
+                                :rules="nameRules"
+                                required
+                                :counter="15">
                   </v-text-field>
                   <v-text-field id="password"
                                 prepend-icon="lock"
                                 name="password"
                                 label="Password"
-                                type="password">
+                                type="password"
+                                :rules="passwordRules"
+                                required>
                   </v-text-field>
                 </v-form>
               </v-card-text>
@@ -47,11 +60,20 @@
 <script>
   export default {
     data: () => ({
-      drawer: null,
+      valid: false,
+      firstName: '',
+      lastName: '',
+      username: '',
+      password: '',
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => v.length <= 15 || 'Name must be less than 15 characters',
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v => v.length >= 5 || 'Password must be more than 5 characters',
+      ],
     }),
-    props: {
-      source: String,
-    },
   };
 </script>
 

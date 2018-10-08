@@ -14,14 +14,18 @@
                                 name="username"
                                 label="Username"
                                 type="text"
-                                v-model="username">
+                                v-model="username"
+                                required
+                                :rules="nameRules"
+                                :counter="15">
                   </v-text-field>
                   <v-text-field id="password"
                                 prepend-icon="lock"
                                 name="password"
                                 label="Password"
                                 type="password"
-                                v-model="password">
+                                v-model="password"
+                                :rules="passwordRules">
                   </v-text-field>
                 </v-form>
               </v-card-text>
@@ -40,12 +44,19 @@
 
 <script>
   export default {
-    data() {
-      return {
-        username: '',
-        password: '',
-      };
-    },
+    data: () => ({
+      valid: false,
+      name: '',
+      password: '',
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => v.length <= 15 || 'Name must be less than 15 characters',
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v => v.length >= 5 || 'Password must be more than 5 characters',
+      ],
+    }),
   };
 </script>
 
