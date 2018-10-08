@@ -90,7 +90,4 @@
 </script>
 
 <style>
-  .application--wrap {
-    min-height: auto;
-  }
 </style>

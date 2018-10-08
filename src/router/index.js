@@ -32,6 +32,10 @@ export default new Router({
       name: 'login',
       component: Login,
     },
+    {
+      path: '*',
+      component: Home,
+    },
   ],
   mode: 'history',
 });

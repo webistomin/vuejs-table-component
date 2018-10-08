@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-content>
-      <v-container fluid fill-height>
+      <v-container fluid>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
@@ -87,7 +87,5 @@
 </script>
 
 <style>
-  .application--wrap {
-    min-height: auto;
-  }
+
 </style>
