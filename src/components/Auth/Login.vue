@@ -30,7 +30,6 @@
               </v-card-text>
               <v-card-actions>
                 <v-btn color="primary"
-                       to="/"
                        @click="onSubmit"
                        :loading="loading"
                        :disabled="!valid || loading">Login</v-btn>

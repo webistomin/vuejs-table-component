@@ -11,24 +11,6 @@
               <v-card-text>
                 <v-form v-model="valid" ref="form" lazy-validation>
                   <v-text-field prepend-icon="person"
-                                name="login"
-                                label="First name"
-                                type="text"
-                                v-model="firstName"
-                                :rules="nameRules"
-                                required
-                                :counter="30">
-                  </v-text-field>
-                  <v-text-field prepend-icon="person"
-                                name="login"
-                                label="Last name"
-                                type="text"
-                                v-model="lastName"
-                                :rules="nameRules"
-                                required
-                                :counter="30">
-                  </v-text-field>
-                  <v-text-field prepend-icon="person"
                                 name="Email"
                                 label="Email"
                                 type="email"
@@ -69,17 +51,11 @@
   export default {
     data: () => ({
       valid: false,
-      firstName: '',
-      lastName: '',
       email: '',
       password: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => v.length <= 15 || 'Name must be less than 15 characters',
-      ],
       passwordRules: [
         v => !!v || 'Password is required',
-        v => v.length >= 5 || 'Password must be more than 5 characters',
+        v => v.length >= 6 || 'Password must be equal or more than 6 characters',
       ],
       emailRules: [
         v => !!v || 'E-mail is required',
