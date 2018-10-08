@@ -9,15 +9,14 @@
                 <v-toolbar-title>Login form</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form ref="form" v-model="valid" validate>
                   <v-text-field prepend-icon="person"
-                                name="username"
-                                label="Username"
-                                type="text"
-                                v-model="username"
+                                name="Email"
+                                label="Email"
+                                type="email"
+                                v-model="email"
                                 required
-                                :rules="nameRules"
-                                :counter="15">
+                                :rules="emailRules">
                   </v-text-field>
                   <v-text-field id="password"
                                 prepend-icon="lock"
@@ -30,9 +29,12 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-btn color="primary" to="/">Login</v-btn>
+                <v-btn color="primary"
+                       to="/"
+                       @click="onSubmit"
+                       :loading="loading"
+                       :disabled="!valid || loading">Login</v-btn>
                 <v-btn color="primary" to="/registration">Register</v-btn>
-                <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -43,20 +45,48 @@
 </template>
 
 <script>
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
   export default {
     data: () => ({
       valid: false,
-      name: '',
+      email: '',
       password: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => v.length <= 15 || 'Name must be less than 15 characters',
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => emailRegex.test(v) || 'E-mail must be valid',
       ],
       passwordRules: [
         v => !!v || 'Password is required',
-        v => v.length >= 5 || 'Password must be more than 5 characters',
+        v => (v && v.length >= 6) || 'Password must be equal or more than 6 characters',
       ],
     }),
+    computed: {
+      loading() {
+        return this.$store.getters.loading;
+      },
+    },
+    methods: {
+      onSubmit() {
+        if (this.$refs.form.validate()) {
+          const user = {
+            email: this.email,
+            password: this.password,
+          };
+
+          this.$store.dispatch('loginUser', user)
+            .then(() => {
+              this.$router.push('/');
+            })
+            .catch(() => {});
+        }
+      },
+    },
+    created() {
+      if (this.$route.query.loginError) {
+        this.$store.dispatch('setError', 'Please log in to access this page.');
+      }
+    },
   };
 </script>
 

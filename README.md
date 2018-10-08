@@ -80,10 +80,6 @@
 | --------- | --------- | --------- | --------- |--------- | --------- |
 | IE11, Edge|Последние 2 версии|Последние 2 версии| 9+ |Последние 2 версии| Последние 2 версии |
 
-## Искал вдохновение
-<a href='https://github.com/dmtrbrl/tmdb-app'>Тут</a> и <a href='https://github.com/SKempin/reactjs-tmdb-app'>тут</a>
-
-
 [travis-image]: https://travis-ci.org/webistomin/vuejs-table-component.svg?branch=master
 [travis-url]: https://travis-ci.org/webistomin/vuejs-table-component
 [dependency-image]: https://david-dm.org/webistomin/vuejs-table-component/dev-status.svg

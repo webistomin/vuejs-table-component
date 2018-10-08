@@ -9,7 +9,7 @@
                 <v-toolbar-title>Register form</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form v-model="valid" ref="form" lazy-validation>
                   <v-text-field prepend-icon="person"
                                 name="login"
                                 label="First name"
@@ -29,25 +29,31 @@
                                 :counter="30">
                   </v-text-field>
                   <v-text-field prepend-icon="person"
-                                name="login"
-                                label="Username"
-                                type="text"
-                                :rules="nameRules"
+                                name="Email"
+                                label="Email"
+                                type="email"
+                                v-model="email"
                                 required
-                                :counter="15">
+                                :rules="emailRules">
                   </v-text-field>
                   <v-text-field id="password"
                                 prepend-icon="lock"
                                 name="password"
                                 label="Password"
                                 type="password"
+                                v-model="password"
                                 :rules="passwordRules"
                                 required>
                   </v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-btn color="primary">Register</v-btn>
+                <v-btn color="primary"
+                       @click="onSubmit"
+                       :loading="loading"
+                       :disabled="!valid || loading">
+                  Create account!
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -58,12 +64,14 @@
 </template>
 
 <script>
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
   export default {
     data: () => ({
       valid: false,
       firstName: '',
       lastName: '',
-      username: '',
+      email: '',
       password: '',
       nameRules: [
         v => !!v || 'Name is required',
@@ -73,7 +81,32 @@
         v => !!v || 'Password is required',
         v => v.length >= 5 || 'Password must be more than 5 characters',
       ],
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => emailRegex.test(v) || 'E-mail must be valid',
+      ],
     }),
+    computed: {
+      loading() {
+        return this.$store.getters.loading;
+      },
+    },
+    methods: {
+      onSubmit() {
+        if (this.$refs.form.validate()) {
+          const user = {
+            email: this.email,
+            password: this.password,
+          };
+
+          this.$store.dispatch('registerUser', user)
+            .then(() => {
+              this.$router.push('/');
+            })
+            .catch(() => {});
+        }
+      },
+    },
   };
 </script>
 
