@@ -4,7 +4,6 @@ import Home from '../components/Home';
 import Login from '../components/Auth/Login';
 import Registration from '../components/Auth/Registration';
 import DataTable from '../components/DataTable';
-import Profile from '../components/User/Profile';
 import AuthGuard from './auth-guard';
 
 
@@ -21,12 +20,6 @@ export default new Router({
       path: '/list',
       name: 'list',
       component: DataTable,
-      beforeEnter: AuthGuard,
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: Profile,
       beforeEnter: AuthGuard,
     },
     {

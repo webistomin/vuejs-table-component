@@ -89,7 +89,6 @@
           return [
             { title: 'Home', icon: 'home', url: '/' },
             { title: 'List', icon: 'list', url: '/list' },
-            { title: 'Profile', icon: 'person', url: '/profile' },
           ];
         }
         return [
