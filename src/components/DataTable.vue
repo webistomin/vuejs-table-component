@@ -3,25 +3,48 @@
     <v-content>
       <v-container fluid>
         <v-layout align-center>
-          <v-flex xs12 sm8 md4>
-            <table>
-              <thead>
-              <tr>
-                <th v-for="a in 10">
-                  Name
-                  <span class="arrow">
+          <v-flex fluid xs12 sm12 md12>
+            <template v-if="loading">
+              <v-progress-linear :indeterminate="true"></v-progress-linear>
+            </template>
+            <template v-else>
+                <table>
+                  <thead>
+                  <tr>
+                    <th v-for="heading of getTableHeadings" :key="heading">
+                      {{heading}}
+                      <span class="arrow">
           </span>
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td v-for="a in 10">
-                 Data
-                </td>
-              </tr>
-              </tbody>
-            </table>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="data in getDataList">
+                    <td>
+                      {{data.name}}
+                    </td>
+                    <td>
+                      {{data.position}}
+                    </td>
+                    <td>
+                      {{data.office}}
+                    </td>
+                    <td>
+                      {{data.age}}
+                    </td>
+                    <td>
+                      {{data.start_date}}
+                    </td>
+                    <td>
+                      {{data.salary}}
+                    </td>
+                    <td>
+                      {{data.currency}}
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+            </template>
           </v-flex>
         </v-layout>
       </v-container>
@@ -32,12 +55,27 @@
 <script>
   export default {
     name: 'DataTable',
+    mounted() {
+      this.$store.dispatch('getDataFromAPI');
+    },
+    computed: {
+      getDataList() {
+        return this.$store.getters.getDataList;
+      },
+      getTableHeadings() {
+        return this.$store.getters.getTableHeadings;
+      },
+      loading() {
+        return this.$store.getters.loading;
+      },
+    },
   };
 </script>
 
 <style scoped>
 
   table {
+    width: 100%;
     border: 2px solid #3f51b5;
     border-radius: 3px;
     background-color: #fff;

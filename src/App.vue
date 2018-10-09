@@ -47,12 +47,10 @@
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </v-content>
-    <v-footer color="indigo" app>
-      <span class="white--text">&copy; 2018</span>
-    </v-footer>
-
     <template v-if="error">
       <v-snackbar
         :timeout="5000"
