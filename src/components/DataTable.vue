@@ -141,13 +141,13 @@
           fieldName = key;
         }
 
-        if (this.sortField.includes(fieldName)) {
+        if (this.sortField.includes(key)) {
           const index = this.sortField.indexOf(fieldName);
           this.sortField.splice(index, 1);
           result = data.sort((a, b) => (b[fieldName.toLowerCase()] > a[fieldName.toLowerCase()] ? 1 : -1));
           this.$store.commit('setDataList', result);
         } else {
-          this.sortField.push(fieldName);
+          this.sortField.push(key);
           result = data.sort((a, b) => (b[fieldName.toLowerCase()] < a[fieldName.toLowerCase()] ? 1 : -1));
           this.$store.commit('setDataList', result);
         }
@@ -157,6 +157,10 @@
 </script>
 
 <style scoped>
+  .flex.xs12 {
+    overflow: auto;
+  }
+
   .table-actions {
     display: flex;
     flex-direction: row;
