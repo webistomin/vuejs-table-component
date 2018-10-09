@@ -131,15 +131,26 @@
     },
     methods: {
       sortByKey(key) {
-        if (this.sortField.length !== 0) {
-          this.sortField = [];
-        } else {
-          this.sortField.push(key);
-        }
         const data = this.getDataList;
         let result = [];
-        result = data.sort((a, b) => (b[key] > a[key] ? 1 : -1));
-        this.$store.commit('setDataList', result);
+        let fieldName = null;
+
+        if (key === 'Start date') {
+          fieldName = 'start_date';
+        } else {
+          fieldName = key;
+        }
+
+        if (this.sortField.includes(fieldName)) {
+          const index = this.sortField.indexOf(fieldName);
+          this.sortField.splice(index, 1);
+          result = data.sort((a, b) => (b[fieldName.toLowerCase()] > a[fieldName.toLowerCase()] ? 1 : -1));
+          this.$store.commit('setDataList', result);
+        } else {
+          this.sortField.push(fieldName);
+          result = data.sort((a, b) => (b[fieldName.toLowerCase()] < a[fieldName.toLowerCase()] ? 1 : -1));
+          this.$store.commit('setDataList', result);
+        }
       },
     },
   };
