@@ -92,7 +92,7 @@
         minValue: 0,
         searchQuery: '',
         sortKey: '',
-        sortField: ['Name', 'Office'],
+        sortField: [],
       };
     },
     mounted() {
@@ -131,7 +131,15 @@
     },
     methods: {
       sortByKey(key) {
-        console.log(key);
+        if (this.sortField.length !== 0) {
+          this.sortField = [];
+        } else {
+          this.sortField.push(key);
+        }
+        const data = this.getDataList;
+        let result = [];
+        result = data.sort((a, b) => (b[key] > a[key] ? 1 : -1));
+        this.$store.commit('setDataList', result);
       },
     },
   };
