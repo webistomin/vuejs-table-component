@@ -22,7 +22,11 @@
                 </div>
                 <div class="search">
                   <label for="search">Search:</label>
-                  <input type="search" id="search" class="search-input" placeholder="search smth...">
+                  <input type="search"
+                         id="search"
+                         class="search-input"
+                         placeholder="search by name field"
+                         v-model="searchQuery">
                 </div>
               </div>
               <table>
@@ -62,6 +66,7 @@
                 </tbody>
               </table>
               <v-pagination
+                v-if="!searchQuery"
                 v-model="page"
                 :length="getPageLength"
                 total-visible="10"
@@ -82,6 +87,7 @@
         showCounter: 10,
         page: 1,
         minValue: 0,
+        searchQuery: '',
       };
     },
     mounted() {
@@ -91,6 +97,14 @@
       getDataCount() {
         const dataList = this.$store.getters.getDataList;
         this.minValue = this.showCounter * (this.page - 1);
+        if (this.searchQuery) {
+          return dataList.slice(0, dataList.length).filter((person) => {
+            if (person.name.toLowerCase().indexOf(this.searchQuery.toLowerCase()) !== -1) {
+              return person;
+            }
+            return false;
+          });
+        }
         if (this.minValue > dataList.length) {
           this.page = this.getPageLength;
           this.minValue = (this.showCounter * (this.page)) - Math.floor(dataList.length / this.getPageLength);
