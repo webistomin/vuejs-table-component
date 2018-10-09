@@ -8,42 +8,63 @@
               <v-progress-linear :indeterminate="true"></v-progress-linear>
             </template>
             <template v-else>
-                <table>
-                  <thead>
-                  <tr>
-                    <th v-for="heading of getTableHeadings" :key="heading">
-                      {{heading}}
-                      <span class="arrow">
-          </span>
-                    </th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="data in getDataList">
-                    <td>
-                      {{data.name}}
-                    </td>
-                    <td>
-                      {{data.position}}
-                    </td>
-                    <td>
-                      {{data.office}}
-                    </td>
-                    <td>
-                      {{data.age}}
-                    </td>
-                    <td>
-                      {{data.start_date}}
-                    </td>
-                    <td>
-                      {{data.salary}}
-                    </td>
-                    <td>
-                      {{data.currency}}
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
+              <div class="table-actions">
+                <div class="show-counter">
+                  <label for="counter">Show</label>
+                  <input type="number"
+                         class="show-input"
+                         id="counter"
+                         value="10"
+                         autofocus
+                         v-model="showCounter">
+                  entries
+                </div>
+                <div class="search">
+                  <label for="search">Search:</label>
+                  <input type="search" id="search" class="search-input" placeholder="search smth...">
+                </div>
+              </div>
+              <table>
+                <thead>
+                <tr>
+                  <th v-for="heading of getTableHeadings" :key="heading">
+                    {{heading}}
+                    <span class="arrow asc"></span>
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(data, index) in getDataCount"
+                    :key="index">
+                  <td>
+                    {{data.name}}
+                  </td>
+                  <td>
+                    {{data.position}}
+                  </td>
+                  <td>
+                    {{data.office}}
+                  </td>
+                  <td>
+                    {{data.age}}
+                  </td>
+                  <td>
+                    {{data.start_date}}
+                  </td>
+                  <td>
+                    {{data.salary}}
+                  </td>
+                  <td>
+                    {{data.currency}}
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <v-pagination
+                v-model="page"
+                :length="Math.floor(getDataList.length / showCounter)"
+                total-visible="10"
+              ></v-pagination>
             </template>
           </v-flex>
         </v-layout>
@@ -55,10 +76,26 @@
 <script>
   export default {
     name: 'DataTable',
+    data() {
+      return {
+        showCounter: 10,
+        page: 1,
+        minValue: 0,
+      };
+    },
     mounted() {
       this.$store.dispatch('getDataFromAPI');
     },
     computed: {
+      getDataCount() {
+        const dataList = this.$store.getters.getDataList;
+        if (this.page === 1) {
+          this.minValue = 0;
+          return dataList.slice(this.minValue, this.showCounter);
+        }
+        this.minValue = this.showCounter * (this.page - 1);
+        return dataList.slice(this.minValue, this.showCounter * this.page);
+      },
       getDataList() {
         return this.$store.getters.getDataList;
       },
@@ -73,12 +110,33 @@
 </script>
 
 <style scoped>
+  .table-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .show-input {
+    background-color: #ffffff;
+    padding: 10px;
+    width: 70px;
+    margin: 0 10px;
+  }
+
+  .search-input {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #ffffff;
+  }
 
   table {
     width: 100%;
     border: 2px solid #3f51b5;
     border-radius: 3px;
-    background-color: #fff;
+    background-color: #ffffff;
+    margin-bottom: 20px;
   }
 
   th {
@@ -101,7 +159,7 @@
   }
 
   th.active {
-    color: #fff;
+    color: #ffffff;
   }
 
   th.active .arrow {
@@ -120,12 +178,12 @@
   .arrow.asc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-bottom: 4px solid #fff;
+    border-bottom: 4px solid #ffffff;
   }
 
   .arrow.dsc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-top: 4px solid #fff;
+    border-top: 4px solid #ffffff;
   }
 </style>
