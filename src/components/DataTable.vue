@@ -15,6 +15,7 @@
                          class="show-input"
                          id="counter"
                          value="10"
+                         min="1"
                          autofocus
                          v-model="showCounter">
                   entries
@@ -62,7 +63,7 @@
               </table>
               <v-pagination
                 v-model="page"
-                :length="Math.floor(getDataList.length / showCounter)"
+                :length="getPageLength"
                 total-visible="10"
               ></v-pagination>
             </template>
@@ -89,11 +90,11 @@
     computed: {
       getDataCount() {
         const dataList = this.$store.getters.getDataList;
-        if (this.page === 1) {
-          this.minValue = 0;
-          return dataList.slice(this.minValue, this.showCounter);
-        }
         this.minValue = this.showCounter * (this.page - 1);
+        if (this.minValue > dataList.length) {
+          this.page = this.getPageLength;
+          this.minValue = (this.showCounter * (this.page)) - Math.floor(dataList.length / this.getPageLength);
+        }
         return dataList.slice(this.minValue, this.showCounter * this.page);
       },
       getDataList() {
@@ -104,6 +105,9 @@
       },
       loading() {
         return this.$store.getters.loading;
+      },
+      getPageLength() {
+        return Math.floor(this.getDataList.length / this.showCounter);
       },
     },
   };
