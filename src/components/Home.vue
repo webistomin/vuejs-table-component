@@ -4,6 +4,7 @@
       For authorization use the following data:
       <div>test@mail.ru</div>
       <div>123456</div>
+      <div>or you can register</div>
     </h1>
     <h1 v-else>
       <span>w</span>

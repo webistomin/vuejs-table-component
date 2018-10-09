@@ -7,6 +7,9 @@
             <template v-if="loading">
               <v-progress-linear :indeterminate="true"></v-progress-linear>
             </template>
+            <template v-else-if="!getDataCount || getDataCount.length === 0">
+              <h1>No data :(</h1>
+            </template>
             <template v-else>
               <div class="table-actions">
                 <div class="show-counter">
