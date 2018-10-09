@@ -32,9 +32,12 @@
               <table>
                 <thead>
                 <tr>
-                  <th v-for="heading of getTableHeadings" :key="heading">
+                  <th v-for="heading of getTableHeadings"
+                      :key="heading"
+                      @click="sortByKey(heading)">
                     {{heading}}
-                    <span class="arrow asc"></span>
+                    <span class="arrow"
+                          :class="sortField.includes(heading) ? 'asc' : 'dsc'"></span>
                   </th>
                 </tr>
                 </thead>
@@ -88,6 +91,8 @@
         page: 1,
         minValue: 0,
         searchQuery: '',
+        sortKey: '',
+        sortField: ['Name', 'Office'],
       };
     },
     mounted() {
@@ -122,6 +127,11 @@
       },
       getPageLength() {
         return Math.floor(this.getDataList.length / this.showCounter);
+      },
+    },
+    methods: {
+      sortByKey(key) {
+        console.log(key);
       },
     },
   };
