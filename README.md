@@ -73,6 +73,10 @@ https://vuejs-table-component.firebaseapp.com
       <td><a href="https://ru.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html">axios</a></td>
       <td>Доступ к API, основанный на промисах HTTP-клиента</td>
     </tr>
+    <tr>
+      <td><a href="https://firebase.google.com/">Firebase</a></td>
+      <td>Сервис, имитирующий работу серверной части. В проекте через него реализована регистрация и авторизация пользователей</td>
+    </tr>
   </tbody>
 </table>
 
